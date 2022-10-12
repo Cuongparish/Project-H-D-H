@@ -7,13 +7,13 @@ F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp
 F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(20,34): warning C4244: '=': conversion from 'int64_t' to 'int', possible loss of data
 F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(23,36): warning C4244: '=': conversion from 'int64_t' to 'int', possible loss of data
 F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(24,33): warning C4244: '=': conversion from 'int64_t' to 'int', possible loss of data
-F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(77,33): warning C4244: '=': conversion from 'int64_t' to 'int', possible loss of data
-F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(81,33): warning C4244: '=': conversion from 'int64_t' to 'int', possible loss of data
-F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(115,36): warning C4244: '=': conversion from 'int64_t' to 'int', possible loss of data
-F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(249,23): warning C4244: 'initializing': conversion from 'int64_t' to 'int', possible loss of data
-F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(273,47): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(285,22): warning C4244: 'initializing': conversion from 'int64_t' to 'int', possible loss of data
+F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(78,33): warning C4244: '=': conversion from 'int64_t' to 'int', possible loss of data
+F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(82,33): warning C4244: '=': conversion from 'int64_t' to 'int', possible loss of data
+F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(116,36): warning C4244: '=': conversion from 'int64_t' to 'int', possible loss of data
+F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(250,23): warning C4244: 'initializing': conversion from 'int64_t' to 'int', possible loss of data
+F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(274,47): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(286,22): warning C4244: 'initializing': conversion from 'int64_t' to 'int', possible loss of data
   Main.cpp
   Generating Code...
-F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(144): warning C4715: 'FAT32::get_Sector_Of_FileSectors': not all control paths return a value
+F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\FAT32\FAT32.cpp(145): warning C4715: 'FAT32::get_Sector_Of_FileSectors': not all control paths return a value
   FAT32.vcxproj -> F:\Kỳ_1_Năm3\Hệ_Điều_Hành\Prọect 1\Project1-H-H\FAT32\x64\Debug\FAT32.exe

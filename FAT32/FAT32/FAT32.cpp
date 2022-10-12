@@ -54,7 +54,7 @@ int FAT32::ReadSector(LPCWSTR drive, int readPoint, BYTE sector[]) {
 	}
 }
 
-// print Tab
+// ham in tab tao cau hinh hien thi cay thu muc
 void FAT32::printTab() {
 	for (int i = 0; i < _level; i++)
 	{//wprintf(L"\t");
@@ -62,13 +62,14 @@ void FAT32::printTab() {
 	}
 }
 
+// chuyen doi tu byte sang int
 int64_t FAT32::get_Int_From_Bytes(BYTE sector[], int offset, int size) {
 	int64_t k = 0;
 	memcpy(&k, sector + offset, size);
 	return k;
 }
 
-
+// chuyen doi tu byte sang string
 wstring FAT32::get_String_From_Bytes(BYTE sector[], int offset, int size, bool isShort) { // bien check co la kieu short
 	wstring resuslt;
 	for (int i = offset; i < offset + size - 1;) {

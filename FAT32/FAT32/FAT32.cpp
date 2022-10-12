@@ -1,6 +1,5 @@
 #include"FAT32.h"
 
-//Ham khoi tao FAT32
 FAT32::FAT32(LPCWSTR drive) {
 	this->_drive = drive;
 	BYTE sector[BYTES_READ];

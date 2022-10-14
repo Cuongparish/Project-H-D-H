@@ -140,7 +140,7 @@ vector<int> FAT32::get_Sector_Of_FileSectors(vector<int> fileClusters) {
 	}
 }
 //Loai bo dau cach o cuoi chuoi
-wstring rtrim(const wstring & ws) {
+wstring rtrim(const wstring& ws) {
 	size_t end = ws.find_last_not_of(' ');
 	if (end == wstring::npos)
 	{
@@ -154,16 +154,16 @@ wstring rtrim(const wstring & ws) {
 
 //Thong tin cua FAT32
 void FAT32::printInfoFAT32() {
-	cout << "\t\t\t --------- THONG TIN TRONG BOOTSECTOR FAT32 ---------" << endl;
-	cout << " So bytes/sector: " << _bytePerSector << endl;
-	cout << " So sector/cluster: " << _sectorPerCluster << endl;
-	cout << " So sector Reserved: " << _rsvdSecCnt << endl;
-	cout << " So bang FAT: " << _numberOfFAT << endl;
-	cout << " So sector cua mot bang FAT: " << _FATSector32 << endl;
-	cout << " Tong sector volume: " << _totSec32 << endl;
+	cout << "\t\t ----------- THONG TIN TRONG BOOTSECTOR FAT32 -----------" << endl;
+	cout << " So bytes/sector:                  " << _bytePerSector << endl;
+	cout << " So sector/cluster:                " << _sectorPerCluster << endl;
+	cout << " So sector Reserved:               " << _rsvdSecCnt << endl;
+	cout << " So bang FAT:                      " << _numberOfFAT << endl;
+	cout << " So sector cua mot bang FAT:       " << _FATSector32 << endl;
+	cout << " Tong sector volume:               " << _totSec32 << endl;
 	cout << " Dia chi sector dau tien bang FAT: " << _rsvdSecCnt << endl;
-	cout << " Dia chi sector dau tien data: " << _rsvdSecCnt + _numberOfFAT * _FATSector32 << endl;
-	cout << "\t\t\t ----------- CAY THU MUC -------------" << endl;
+	cout << " Dia chi sector dau tien data:     " << _rsvdSecCnt + _numberOfFAT * _FATSector32 << endl;
+	cout << "\t\t ----------- CAY THU MUC -------------" << endl;
 }
 
 //Lay thong tin tap tin
@@ -187,6 +187,35 @@ void FAT32::get_File_Info(BYTE sector[], int firstCluster)
 	{
 		cout << fileSectors[i] << " ";
 	}
+	cout << endl;
+}
+
+//Doc noi dung tap tin
+void FAT32::ReadData(wstring fileExtension, int firstCluster) {
+	transform(fileExtension.begin(), fileExtension.end(), fileExtension.begin(), ::toupper);
+	printTab();
+	cout << "+ Noi dung :";
+	if (wcscmp(fileExtension.c_str(), L"TXT") == 0 || wcscmp(fileExtension.c_str(), L"txt") == 0) {
+		if (firstCluster != 0) {
+			vector<int> fileClusters = getClusters(firstCluster);
+			vector<int> fileSectors = get_Sector_Of_FileSectors(fileClusters);
+
+			for (unsigned int i = 0; i < fileSectors.size(); i++) {
+				BYTE sectorFile[BYTES_READ];
+
+				int readPointFile = fileSectors[i] * _bytePerSector;
+
+				SetFilePointer(_device, readPointFile, NULL, FILE_BEGIN);
+				ReadSector(_drive, readPointFile, sectorFile);
+
+				for (int j = 0; j < BYTES_READ && sectorFile[j] != '\0'; j += 1)
+					cout << sectorFile[j];
+			}
+		}
+		cout << endl;
+	}
+	else
+		cout << "Dung phan mem khac de doc file khac .txt\n";
 	cout << endl;
 }
 
@@ -234,7 +263,7 @@ void FAT32::getDirectory(int cluster) {
 				}
 			}
 
-			if (sector[index + 11] == 32) 
+			if (sector[index + 11] == 32)
 			{
 				wstring fileExtension;
 
@@ -248,7 +277,7 @@ void FAT32::getDirectory(int cluster) {
 					cout << "Ten:";
 					wprintf(L"%s\n", mainEntryName.c_str());
 				}
-				else 
+				else
 				{
 					int dotIndex = total_EntryName.rfind(L'.');
 					fileExtension = (dotIndex == wstring::npos) ? L"" :
@@ -273,6 +302,7 @@ void FAT32::getDirectory(int cluster) {
 				int64_t fileSize = get_Int_From_Bytes(sector, index + 28, 4) * _bytePerSector;
 				printTab();
 				cout << "+ Kich thuoc co " << fileSize << " byte" << endl;
+				ReadData(fileExtension, firstCluster);
 			}
 
 			if (sector[index + 11] == 15) {

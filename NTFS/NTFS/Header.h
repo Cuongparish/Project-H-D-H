@@ -1,5 +1,5 @@
 ﻿#pragma once
-#pragma once
+
 #include<iostream>
 #include<cstdlib>
 #include<stdio.h>
@@ -56,6 +56,3 @@ void read_MFT(unsigned int MFTStart, unsigned int sectors_per_cluster, LPCWSTR d
 
 // xử lí cây thư mục
 void directory_Tree(unsigned int len_MFT, unsigned int MFTStart, LPCWSTR disk);
-
-
-

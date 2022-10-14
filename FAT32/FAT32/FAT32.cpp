@@ -56,7 +56,7 @@ int FAT32::ReadSector(LPCWSTR drive, int readPoint, BYTE sector[]) {
 // ham in tab tao cau hinh hien thi cay thu muc
 void FAT32::printTab() {
 	for (int i = 0; i < _level; i++)
-	{//wprintf(L"\t");
+	{
 		cout << "\t";
 	}
 }
@@ -107,7 +107,7 @@ vector<int> FAT32::getClusters(int firstCluster) {
 
 	SetFilePointer(_device, readPoint, NULL, FILE_BEGIN);
 	ReadSector(_drive, readPoint, sector);
-	readPoint += BYTES_READ;
+	readPoint = readPoint + BYTES_READ;
 
 	int clusterValue = firstCluster;
 	do {
@@ -118,7 +118,7 @@ vector<int> FAT32::getClusters(int firstCluster) {
 		{
 			SetFilePointer(_device, readPoint, NULL, FILE_BEGIN);
 			ReadSector(_drive, readPoint, sector);
-			readPoint += BYTES_READ;
+			readPoint = readPoint + BYTES_READ;
 		}
 	} while (clusterValue != STOP_CLUSTER);
 
@@ -131,26 +131,29 @@ vector<int> FAT32::get_Sector_Of_FileSectors(vector<int> fileClusters) {
 
 	for (unsigned int i = 0; i < fileClusters.size(); i++)
 	{
-		{int firstSector = find_First_SectorOfCluster(fileClusters[i]);
-
+		int firstSector = find_First_SectorOfCluster(fileClusters[i]);
 		for (int i = 0; i < _sectorPerCluster; i++)
 		{
 			fileSectors.push_back(firstSector + i);
 		}
-		}
-
 		return fileSectors;
 	}
 }
 //Loai bo dau cach o cuoi chuoi
 wstring rtrim(const wstring & ws) {
 	size_t end = ws.find_last_not_of(' ');
-	return (end == wstring::npos) ? L"" : ws.substr(0, end + 1);
+	if (end == wstring::npos)
+	{
+		return L"";
+	}
+	else
+	{
+		return ws.substr(0, end + 1);
+	}
 }
 
 //Thong tin cua FAT32
 void FAT32::printInfoFAT32() {
-	//cout << "nhin gi";
 	cout << "\t\t\t --------- THONG TIN TRONG BOOTSECTOR FAT32 ---------" << endl;
 	cout << " So bytes/sector: " << _bytePerSector << endl;
 	cout << " So sector/cluster: " << _sectorPerCluster << endl;
@@ -160,16 +163,7 @@ void FAT32::printInfoFAT32() {
 	cout << " Tong sector volume: " << _totSec32 << endl;
 	cout << " Dia chi sector dau tien bang FAT: " << _rsvdSecCnt << endl;
 	cout << " Dia chi sector dau tien data: " << _rsvdSecCnt + _numberOfFAT * _FATSector32 << endl;
-	//wprintf(L"\t\t\t --------- THONG TIN TRONG BOOTSECTOR FAT32 ---------\n");
-	//wprintf(L"So bytes/sector: %d\n", _bytePerSector);
-	//wprintf(L"So sector/cluster: %d\n", _sectorPerCluster);
-	//wprintf(L"So sector Reserved: %d\n", _rsvdSecCnt);
-	//wprintf(L"So bang FAT: %d\n", _numberOfFAT);
-	//wprintf(L"So sector cua mot bang FAT: %d\n", _FATSector32);
-	//wprintf(L"Tong sector volume: %d\n", _totSec32);
-	//wprintf(L"Dia chi sector dau tien bang FAT1: %d\n", _rsvdSecCnt);
-	//wprintf(L"Dia chi sector dau tien Data: %d\n", _rsvdSecCnt + _numberOfFAT * _FATSector32);
-	//wprintf(L"\n\t\t\t --------------Cay thu muc---------------\n");
+	cout << "\t\t\t ----------- CAY THU MUC -------------" << endl;
 }
 
 //Lay thong tin tap tin
@@ -178,104 +172,90 @@ void FAT32::get_File_Info(BYTE sector[], int firstCluster)
 	vector<int> fileClusters = getClusters(firstCluster);
 	vector<int> fileSectors = get_Sector_Of_FileSectors(fileClusters);
 	printTab();
-	//wprintf(L"+Cluster bat dau: %d\n", firstCluster);
-	cout << " + Cluster bat dau: " << firstCluster << endl;
+	cout << "+ Cluster bat dau: " << firstCluster << endl;
 	printTab();
-	//wprintf(L"+Chiem cac cluster: ");
 	cout << "+ Chiem cac cluster: ";
 
 	for (unsigned int i = 0; i < fileClusters.size(); i++)
 	{
-		//wprintf(L"%d ", fileClusters[i]);
 		cout << fileClusters[i];
 	}
 	cout << endl;
-	//wprintf(L"\n");
 	printTab();
-	//wprintf(L"+Chiem cac sector: ");
-	cout << "chiem cac sector: ";
+	cout << "+ chiem cac sector: ";
 	for (unsigned int i = 0; i < fileSectors.size(); i++)
 	{
-		//wprintf(L"%d ", fileSectors[i]);
-		cout << fileSectors[i];
+		cout << fileSectors[i] << " ";
 	}
-	//wprintf(L"\n");
 	cout << endl;
-}
-
-//Lay thong tin size
-void FAT32::getSize(BYTE sector[], int index) {
-	int64_t fileSize = get_Int_From_Bytes(sector, index + 28, 4) * _bytePerSector;
-	printTab();
-	//wprintf(L"+Kich co %d Byte\n", fileSize);
-	cout << "+ Kich thuoc co " << fileSize << " byte" << endl;
 }
 
 //Lay nhung tap tin con trong thu muc goc
 void FAT32::getDirectory(int cluster) {
 	BYTE sector[BYTES_READ];
-	int readPoint = find_First_SectorOfCluster(cluster) * _bytePerSector;
+	int read_Point = find_First_SectorOfCluster(cluster) * _bytePerSector;
 
 	do {
-		SetFilePointer(_device, readPoint, NULL, FILE_BEGIN);
-		ReadSector(_drive, readPoint, sector);
+		SetFilePointer(_device, read_Point, NULL, FILE_BEGIN);
+		ReadSector(_drive, read_Point, sector);
 
-		readPoint += 512;
+		read_Point = read_Point + 512;
 
 		int index = 0;
 
-		wstring totalEntryName;
+		wstring total_EntryName;
 		while (index < 512) {
 			if (sector[index + 11] == 16) {
 
 				if (sector[index] != '.') {
-					if (totalEntryName.size() == 0) {
-						wstring mainEntryName = get_String_From_Bytes(sector, index, 12, false);
+					if (total_EntryName.size() == 0) {
+						wstring main_EntryName = get_String_From_Bytes(sector, index, 12, false);
 						printTab();
-						//wprintf(L"%s\n", mainEntryName.c_str());
-						cout << mainEntryName.c_str() << endl;
+						cout << "Ten:";
+						wprintf(L"%s\n", main_EntryName.c_str());
 					}
 					else
 					{
 						printTab();
-						//wprintf(L"%s\n", totalEntryName.c_str());
-						cout << totalEntryName.c_str();
+						cout << "Ten:";
+						wprintf(L"%s\n", total_EntryName.c_str());
 					}
 
 					printTab();
-					//wprintf(L"+Loai tap tin: Thu muc\n");
 					cout << "+ Loai tap tin: Thu muc" << endl;
 
 					int firstCluster = get_Int_From_Bytes(sector, index + 26, 2) +
 						(int)pow(16, 2) * get_Int_From_Bytes(sector, index + 20, 2);
 					get_File_Info(sector, firstCluster);
 
-					//De quy
 					_level++;
 					getDirectory(firstCluster);
 					_level--;
 				}
 			}
 
-			if (sector[index + 11] == 32) {
+			if (sector[index + 11] == 32) 
+			{
 				wstring fileExtension;
 
-				if (totalEntryName.size() == 0) {
+				if (total_EntryName.size() == 0)
+				{
 					wstring fileName = rtrim(get_String_From_Bytes(sector, index, 8, false));
 					fileExtension = rtrim(get_String_From_Bytes(sector, index + 8, 4, false));
 
 					wstring mainEntryName = (fileExtension == L"") ? fileName : fileName + L"." + fileExtension;
 					printTab();
-					//wprintf(L"%s\n", mainEntryName.c_str());
-					cout << mainEntryName.c_str() << endl;
+					cout << "Ten:";
+					wprintf(L"%s\n", mainEntryName.c_str());
 				}
-				else {
-					int dotIndex = totalEntryName.rfind(L'.');
+				else 
+				{
+					int dotIndex = total_EntryName.rfind(L'.');
 					fileExtension = (dotIndex == wstring::npos) ? L"" :
-						totalEntryName.substr(dotIndex + 1, totalEntryName.length() - dotIndex - 1);
+						total_EntryName.substr(dotIndex + 1, total_EntryName.length() - dotIndex - 1);
 					printTab();
-					//wprintf(L"%s\n", totalEntryName.c_str());
-					cout << totalEntryName.c_str() << endl;
+					cout << "Ten:";
+					wprintf(L"%s\n", total_EntryName.c_str());
 				}
 
 				printTab();
@@ -286,25 +266,26 @@ void FAT32::getDirectory(int cluster) {
 					(int)pow(16, 2) * get_Int_From_Bytes(sector, index + 20, 2);
 
 				if (firstCluster != 0)
+				{
 					get_File_Info(sector, firstCluster);
-
-				getSize(sector, index);
-				/*int fileSize = GetIntValue(sector, index + 28, 4) * bytsPerSec;
-				PrintTab();
-				wprintf(L"+Kich co %d Byte\n", fileSize);*/
+				}
+				// lay size
+				int64_t fileSize = get_Int_From_Bytes(sector, index + 28, 4) * _bytePerSector;
+				printTab();
+				cout << "+ Kich thuoc co " << fileSize << " byte" << endl;
 			}
 
 			if (sector[index + 11] == 15) {
 				wstring extraEntryName =
-					get_String_From_Bytes(sector, index + 1, 10, true) +
-					get_String_From_Bytes(sector, index + 14, 12, true) +
+					get_String_From_Bytes(sector, index + 1, 10, true) + get_String_From_Bytes(sector, index + 14, 12, true) +
 					get_String_From_Bytes(sector, index + 28, 4, true);
 
-				totalEntryName = extraEntryName + totalEntryName;
+				total_EntryName = extraEntryName + total_EntryName;
 			}
 			else
-				totalEntryName.clear();
-
+			{
+				total_EntryName.clear();
+			}
 			index += 32;
 		}
 	} while (sector[0] != 0);

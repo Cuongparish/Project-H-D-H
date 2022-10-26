@@ -37,11 +37,11 @@ public:
 
 	// doc sector
 	int ReadSector(LPCWSTR _drive, int readPoint, BYTE sector[512]);
-	
+
 	// chuyen tu byte sang int
 	int64_t get_Int_From_Bytes(BYTE sector[], int offset, int size);
 	// chuyen tu bytes sang string
-	wstring get_String_From_Bytes(BYTE sector[], int offset, int size, bool isShort );
+	wstring get_String_From_Bytes(BYTE sector[], int offset, int size, bool isShort);
 	// tim sector dau tien cua cluster
 	int find_First_SectorOfCluster(int cluster);
 	// lay thong tin cua tap tin
@@ -58,5 +58,7 @@ public:
 	void getDirectory(int readPoint);
 	// lay cluster dau tien cua cay thu muc
 	int get_Root_of_Cluster();
+
+	void ReadData(wstring fileExtension, int firstCluster);
 };
 

@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 		do
 		{
 			system("cls");
-			cout << "------------MENU-----------" << endl;
+			cout << "------------MENU------------" << endl;
 			cout << " 1. View the information " << endl;
 			cout << " 2. Display directory tree " << endl;
 			cout << " 3. Exit" << endl;
@@ -72,7 +72,7 @@ int main(int argc, char** argv)
 	}
 	else
 	{
-		cout << "Reading failed !!!" << endl;
+		cout << " Reading failed !!!!!!" << endl;
 		return 0;
 	}
 }

@@ -420,5 +420,3 @@ void directory_Tree(unsigned int len_MFT, unsigned int MFTStart, LPCWSTR disk)
         if (fileID[i] != -1 && parentID[i] != -1)
             Print_Directory_Tree(fileID[i], -1, i);
 }
-
-

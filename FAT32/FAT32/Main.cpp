@@ -10,7 +10,7 @@ int main() {
     LPCWSTR drive = driveName.c_str();
 
     FAT32 fat32(drive);
-   
+
     fat32.printInfoFAT32();
     int rootClus = fat32.get_Root_of_Cluster();
     fat32.getDirectory(rootClus);

@@ -48,16 +48,104 @@
 //	are in machine.h.
 //----------------------------------------------------------------------
 
-void
-ExceptionHandler(ExceptionType which)
-{
-    int type = machine->ReadRegister(2);
 
-    if ((which == SyscallException) && (type == SC_Halt)) {
-	DEBUG('a', "Shutdown, initiated by user program.\n");
-   	interrupt->Halt();
-    } else {
-	printf("Unexpected user mode exception %d %d\n", which, type);
-	ASSERT(FALSE);
-    }
+// Function to handle run-time errors 
+void ExceptionHandler(ExceptionType which)
+{
+	int type = machine->ReadRegister(2);
+
+	switch (which)
+	{
+		case NoException:
+			return;
+
+		case PageFaultException:
+			printf("No valid translation found \n\n");
+			ASSERT(FALSE);
+			interrupt->Halt();
+
+			break;
+
+		case PageFaultException:
+			printf("Write attempted to page marked \"read - only\" \n\n");
+			ASSERT(FALSE);
+			interrupt->Halt();
+
+			break;
+
+		case BusErrorException:
+			printf("Translation resulted in an invalid physical address \n\n");
+			ASSERT(FALSE);
+			interrupt->Halt();
+			break;
+
+		case AddressErrorException:
+		
+			printf("Unaligned reference or one that was beyond the end of the address space \n \n");
+			ASSERT(FALSE);
+			interrupt->Halt();
+			break;
+
+		case OverflowException:
+			
+			printf("Integer overflow in add or sub. \n \n");
+			ASSERT(FALSE);
+			interrupt->Halt();
+			break;
+
+		case IllegalInstrException:
+			
+			printf("Unimplemented or reserved instr. \n\n");
+			ASSERT(FALSE);
+			interrupt->Halt();
+			break;
+
+		case NumExceptionTypes:
+			
+			printf("Number exception types \n\n");
+			ASSERT(FALSE);
+			interrupt->Halt();
+			break;
+
+			// khi cai cac ham systemcall phai xu li loi va in ra 
+		case SyscallException:
+			switch (type)
+			{
+			case SC_Halt:
+				printf("\nShutdown, initiated by user program. ");
+				interrupt->Halt();
+				break;
+
+			case SC_readChar:
+				// goi ham readChar
+				break;
+
+			case SC_printChar:
+				// goi ham printChar
+				break;
+
+			case SC_readInt:
+				//goi ham readInt
+				break;
+				
+			case SC_printInt:
+				//goi ham printInt
+				break;
+
+			case SC_readString:
+				//goi ham readString
+				break;
+
+			case SC_printString:
+				// goi ham printString
+				break;
+
+			default:
+				printf("Unexpected user mode exception %d %d\n", which, type);
+				ASSERT(FALSE);
+				break;
+			}
+		default:
+			break;
+		}
 }

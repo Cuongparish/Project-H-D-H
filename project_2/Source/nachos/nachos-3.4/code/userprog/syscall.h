@@ -30,6 +30,14 @@
 #define SC_Fork		9
 #define SC_Yield	10
 
+// Basic SystemCalls are installed in the program
+#define SC_readInt	11
+#define SC_printInt	12
+#define SC_readChar	13
+#define SC_printChar 14
+#define SC_readString 15
+#define SC_printString 16
+
 #ifndef IN_ASM
 
 /* The system call interface.  These are the operations the Nachos

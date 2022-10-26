@@ -52,8 +52,6 @@ public:
 	vector<int> get_Sector_Of_FileSectors(vector<int> fileClusters);
 	// cau hinh console cac thu muc/ tap tin con
 	void printTab();
-	//lay thong tin size
-	void getSize(BYTE sector[], int index);
 	// in thong tin FAT32
 	void printInfoFAT32();
 	// lay thong tin cua cay thu muc

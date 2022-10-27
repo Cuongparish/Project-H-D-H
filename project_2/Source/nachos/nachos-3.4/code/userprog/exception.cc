@@ -48,6 +48,56 @@
 //	are in machine.h.
 //----------------------------------------------------------------------
 
+//ham tang program counter truoc khi system call tra ket qua
+void IncreasePC()
+{
+	int increase = machine->ReadRegister(PCReg);
+	machine->WriteRegister(PrevPCReg, counter);
+	increase = machine->ReadRegister(NextPCReg);
+	machine->WriteRegister(PCReg, counter);
+	machine->WriteRegister(NextPCReg, counter + 4);
+}
+
+// Input: Khong gian dia chi User(int) - gioi han cua buffer(int)
+// Output: Bo nho dem Buffer(char*)
+// Chuc nang: Sao chep vung nho User sang vung nho System
+char* User2System(int virtAd, int limit)
+{
+	int n; //chi so index
+	int oneChar;
+	char* kernelBuf = NULL;
+	kernelBuf = new char[limit + 1]; //can cho chuoi terminal
+	if (kernelBuf == NULL)
+		return kernelBuf;
+
+	memset(kernelBuf, 0, limit + 1);
+
+	for (n = 0; n < limit; n++)
+	{
+		machine->ReadMem(virtAd + n, 1, &oneChar);
+		kernelBuf[n] = (char)oneChar;
+		if (oneChar == 0)
+			break;
+	}
+	return kernelBuf;
+}
+
+// Input: Khong gian vung nho User(int) - gioi han cua buffer(int) - bo nho dem buffer(char*)
+// Output: So byte da sao chep(int)
+// Chuc nang: Sao chep vung nho System sang vung nho User
+int System2User(int virtAd, int len, char* buffer)
+{
+	if (len < 0) return -1;
+	if (len == 0)return len;
+	int i = 0;
+	int oneChar = 0;
+	do {
+		oneChar = (int)buffer[i];
+		machine->WriteMem(virtAd + i, 1, oneChar);
+		i++;
+	} while (i < len && oneChar != 0);
+	return i;
+}
 
 // Function to handle run-time errors 
 void ExceptionHandler(ExceptionType which)

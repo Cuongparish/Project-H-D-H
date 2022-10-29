@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "algorithm": "c",
+        "iterator": "c",
+        "xtree": "c",
+        "xutility": "c"
+    }
+}

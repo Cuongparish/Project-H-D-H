@@ -71,17 +71,17 @@ SpaceId Exec(char *name);
  */
 int Join(SpaceId id);
 
-int ReadInt();
+int readInt();
 
-void PrintInt(int number);
+void printInt(int number);
 
-char ReadChar();
+char readChar();
 
-void PrintChar(char character);
+void printChar(char character);
 
-void ReadString(char buffer[], int length);
+void readString(char buffer[], int length);
 
-void PrintString(char buffer[]);
+void printString(char buffer[]);
 /* File system operations: Create, Open, Read, Write, Close
  * These functions are patterned after UNIX -- files represent
  * both files *and* hardware I/O devices.

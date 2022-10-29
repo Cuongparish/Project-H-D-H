@@ -25,7 +25,6 @@
 #include "system.h"
 #include "syscall.h"
 //-----------------
-#include "machine.h"
 #include <cmath>
 #include <iostream>
 
@@ -214,7 +213,7 @@ void ExceptionHandler(ExceptionType which)
 			bool check = TRUE;
 
 			int i = 0;
-			if (buffer[0] = '-')
+			if (buffer[0] == '-')
 			{
 				i++;
 			}

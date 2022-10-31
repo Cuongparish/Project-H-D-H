@@ -138,28 +138,24 @@ void ExceptionHandler(ExceptionType which)
 		break;
 
 	case AddressErrorException: //-------------------
-
 		printf("Unaligned reference or one that was beyond the end of the address space \n \n");
 		ASSERT(FALSE);
 		interrupt->Halt();
 		break;
 
 	case OverflowException: //----------------------
-
 		printf("Integer overflow in add or sub. \n \n");
 		ASSERT(FALSE);
 		interrupt->Halt();
 		break;
 
 	case IllegalInstrException: //-----------------------
-
 		printf("Unimplemented or reserved instr. \n\n");
 		ASSERT(FALSE);
 		interrupt->Halt();
 		break;
 
 	case NumExceptionTypes: //-----------------------
-
 		printf("Number exception types \n\n");
 		ASSERT(FALSE);
 		interrupt->Halt();
@@ -167,6 +163,7 @@ void ExceptionHandler(ExceptionType which)
 
 		// khi cai cac ham systemcall phai xu li loi va in ra
 	case SyscallException:
+	{
 		switch (type)
 		{
 		case SC_Halt:
@@ -338,6 +335,10 @@ void ExceptionHandler(ExceptionType which)
 			ASSERT(FALSE);
 			break;
 		}
+		IncreasePC();
+		break;
+	}
+
 	default:
 		break;
 	}

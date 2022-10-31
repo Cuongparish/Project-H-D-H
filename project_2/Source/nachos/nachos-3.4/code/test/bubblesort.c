@@ -28,13 +28,14 @@ void printArray(int arr[], int size)
 
 void readArray(int arr[], int* size)
 {
+    int i;
     do
     {
         printString("Nhập số lượng phần tử của mảng: \n");
         *size = readInt();
     } while (*size < 0 || *size > 100);
     
-    for(int i = 0; i < *size; i++)
+    for(i = 0; i < *size; i++)
     {
         printString("Nhập phần tử thứ ");
         printInt(i + 1);

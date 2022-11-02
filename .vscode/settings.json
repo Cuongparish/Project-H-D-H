@@ -3,6 +3,7 @@
         "algorithm": "c",
         "iterator": "c",
         "xtree": "c",
-        "xutility": "c"
+        "xutility": "c",
+        "syscall.h": "c"
     }
 }

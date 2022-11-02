@@ -22,7 +22,10 @@ void printArray(int arr[], int size)
 {
     int i;
     for (i = 0; i < size; i++)
+    {
         printInt(arr[i]);
+	printString("  ");
+    }
     printString("\n");
 }
 
@@ -31,7 +34,7 @@ void readArray(int arr[], int* size)
     int i;
     do
     {
-        printString("Nhập số lượng phần tử của mảng: \n");
+        printString("Nhập số lượng phần tử của mảng: ");
         *size = readInt();
     } while (*size < 0 || *size > 100);
     

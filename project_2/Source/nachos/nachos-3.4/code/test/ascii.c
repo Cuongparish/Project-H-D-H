@@ -2,18 +2,20 @@
 
 int main()
 {
-    char count;
+    char item = 0;
+    int i;
 
-    printString("--------ASCII TABLE--------");
+    printString("--------ASCII TABLE--------\n");
 
-    for(count = 0; count < 255; count++)
+    for(i = 0; i < 255; i++)
     {
-        printInt(count);
+        printInt(i);
         printString(" - ");
-        printChar(count);
+        printChar(item);
         printString("\t");
-        if(count % 5 == 0)
+	if(i % 6 == 0)
             printString("\n");
+	item++;
     }
 
     return 0;

@@ -22,7 +22,7 @@ int main()
     printString("Chương trình sẽ lấy thông tin từ mảng đó và sắp xếp sau đó xuất kết quả\n");
     printString("Để chạy chương trình sort bạn cần nhập lệnh: \n");
     printString("'./userprog/nachos -rs 1023 -x ./test/bubblesort'\n");
-
+    Halt();
     return 0;
 }
 

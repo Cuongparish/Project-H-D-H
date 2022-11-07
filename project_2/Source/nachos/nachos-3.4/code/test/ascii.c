@@ -17,6 +17,6 @@ int main()
             printString("\n");
 	item++;
     }
-
+    Halt();
     return 0;
 }

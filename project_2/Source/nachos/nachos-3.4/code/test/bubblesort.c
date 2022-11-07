@@ -59,6 +59,6 @@ int main()
     bubbleSort(arr, size);
     printString("Mảng sau khi sắp xếp: ");
     printArray(arr, size);
-
+    Halt();
     return 0;
 }

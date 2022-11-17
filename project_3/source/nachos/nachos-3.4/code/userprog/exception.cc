@@ -27,6 +27,8 @@
 //-----------------
 #include <cmath>
 #include <iostream>
+//-----------------
+#define MaxFileLength 32
 
 //----------------------------------------------------------------------
 // ExceptionHandler
@@ -328,6 +330,49 @@ void ExceptionHandler(ExceptionType which)
 			gSynchConsole->Write(buffer, length + 1);
 
 			break;
+		}
+
+		case SC_CreateFile:
+		{
+			int virAddr;
+			char* filename;
+			DEBUG('a', "\n SC_CreateFile call ......");
+			DEBUG('a', "\n Reading virtual address of filename");
+
+			virAddr = machine->ReadRegister(4);
+			DEBUG('a', "\n Reading file name");
+
+			filename = User2System(virAddr, MaxFileLength + 1);
+			if(strlen(filename) == 0)
+			{
+				printf("\n File name is not valid");
+				DEBUG('a', "\n File name is not valid");
+				machine->WriteRegister(2, -1);
+				break;
+			}
+
+			if (filename == NULL)
+			{
+				printf("\n Not enough memory in system");
+				DEBUG('a', "\n Not enough memory in system");
+				machine->WriteRegister(2, -1);
+				delete filename;
+				break;
+			}
+			DEBUG('a', "\n Finish reading filename");
+
+			if(!fileSystem->Create(filename, 0))
+			{
+				printf("\n Error create file '%s'", filename);
+				machine->WriteRegister(2, -1);
+				delete filename;
+				break;
+			}
+
+			machine->WriteRegister(2, 0);
+			delete filename;
+			break;
+
 		}
 
 		default:

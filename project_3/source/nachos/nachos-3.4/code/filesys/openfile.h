@@ -28,9 +28,18 @@
 					// See definitions listed under #else
 class OpenFile {
   public:
-    OpenFile(int f) { file = f; currentOffset = 0; }	// open the file
-    ~OpenFile() { Close(file); }			// close the file
+  	int type;
+  	
+	OpenFile(int f) { file = f; currentOffset = 0; type = 0; }	
+	OpenFile(int f, int t) { file = f; currentOffset = 0; type = t; }	
+    	~OpenFile() { Close(file); }			
 
+  	int Seek(int pos) {
+		Lseek(file, pos, 0);
+		currentOffset = Tell(file);
+		return currentOffset;
+	}
+	
     int ReadAt(char *into, int numBytes, int position) { 
     		Lseek(file, position, 0); 
 		return ReadPartial(file, into, numBytes); 
@@ -51,8 +60,21 @@ class OpenFile {
 		return numWritten;
 		}
 
+	//Default Length method
+	/*
     int Length() { Lseek(file, 0, 2); return Tell(file); }
+	*/
+
+	int Length() {
+		int len;
+		Lseek(file, 0, 2);
+		len = Tell(file);
+		Lseek(file, currentOffset, 0);
+		return len;
+	}
     
+    int GetCurrentPos() { currentOffset = Tell(file); return currentOffset; }
+	
   private:
     int file;
     int currentOffset;
@@ -63,13 +85,21 @@ class FileHeader;
 
 class OpenFile {
   public:
+  	int type; 
+	// type 0 : read and write
+	// type 1 : only read
+	// type 2 : stdin
+	// type 3 : stdout
+	
     OpenFile(int sector);		// Open a file whose header is located
 					// at "sector" on the disk
+    OpenFile(int sector, int type);	
+
     ~OpenFile();			// Close the file
 
     void Seek(int position); 		// Set the position from which to 
 					// start reading/writing -- UNIX lseek
-
+	
     int Read(char *into, int numBytes); // Read/write bytes from the file,
 					// starting at the implicit position.
 					// Return the # actually read/written,
@@ -85,6 +115,11 @@ class OpenFile {
 					// file (this interface is simpler 
 					// than the UNIX idiom -- lseek to 
 					// end of file, tell, lseek back 
+    
+    int GetCurrentPos()
+	{
+		return seekPosition;
+	}
     
   private:
     FileHeader *hdr;			// Header for this file 

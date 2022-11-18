@@ -375,6 +375,186 @@ void ExceptionHandler(ExceptionType which)
 
 		}
 
+		case SC_Open:
+		{
+			//OpenFileId Open(char *name, int type);
+			int virtAddr = machine->ReadRegister(4);
+			int type = machine->ReadRegister(5); 
+			char* filename;
+			filename = User2System(virtAddr, MaxFileLength); 
+			
+			int freeSlot = fileSystem->FindFreeSlot();
+			if (freeSlot != -1)
+			{
+				if (type == 0 || type == 1) 
+				{
+					
+					if ((fileSystem->openf[freeSlot] = fileSystem->Open(filename, type)) != NULL) 
+					{
+						machine->WriteRegister(2, freeSlot); 
+					}
+				}
+				else if (type == 2) 
+				{
+					machine->WriteRegister(2, 0); 
+				}
+				else 
+				{
+					machine->WriteRegister(2, 1);
+				}
+				delete[] filename;
+				break;
+			}
+			machine->WriteRegister(2, -1);
+			
+			delete[] filename;
+			break;
+		}
+
+		case SC_Close:
+		{
+			int fid = machine->ReadRegister(4); 
+			if (fid >= 0 && fid <= 9) 
+			{
+				if (fileSystem->openf[fid])
+				{
+					delete fileSystem->openf[fid]; 
+					fileSystem->openf[fid] = NULL;
+					machine->WriteRegister(2, 0);
+					break;
+				}
+			}
+			machine->WriteRegister(2, -1);
+			break;
+		}
+
+		case SC_Read:
+		{
+			int virtAddr = machine->ReadRegister(4); // Lay dia chi cua tham so buffer tu thanh ghi so 4
+			int charcount = machine->ReadRegister(5); // Lay charcount tu thanh ghi so 5
+			int id = machine->ReadRegister(6); // Lay id cua file tu thanh ghi so 6 
+			int OldPos;
+			int NewPos;
+			char *buf;
+			
+			if (id < 0 || id > 9)
+			{
+				printf("\nKhong the read vi id nam ngoai bang mo ta file.");
+				machine->WriteRegister(2, -1);
+				IncreasePC();
+				return;
+			}
+			
+			if (fileSystem->openf[id] == NULL)
+			{
+				printf("\nKhong the read vi file nay khong ton tai.");
+				machine->WriteRegister(2, -1);
+				IncreasePC();
+				return;
+			}
+			if (fileSystem->openf[id]->type == 3) 
+			{
+				printf("\nKhong the read file stdout.");
+				machine->WriteRegister(2, -1);
+				IncreasePC();
+				return;
+			}
+			OldPos = fileSystem->openf[id]->GetCurrentPos(); 
+			buf = User2System(virtAddr, charcount);
+			
+			if (fileSystem->openf[id]->type == 2)
+			{
+				
+				int size = gSynchConsole->Read(buf, charcount); 
+				System2User(virtAddr, size, buf); 
+				machine->WriteRegister(2, size);
+				delete buf;
+				IncreasePC();
+				return;
+			}
+			
+			if ((fileSystem->openf[id]->Read(buf, charcount)) > 0)
+			{
+				
+				NewPos = fileSystem->openf[id]->GetCurrentPos();
+				
+				System2User(virtAddr, NewPos - OldPos, buf); 
+				machine->WriteRegister(2, NewPos - OldPos);
+			}
+			else
+			{
+				//printf("\nDoc file rong.");
+				machine->WriteRegister(2, -2);
+			}
+			delete buf;
+			IncreasePC();
+			return;
+		}
+
+		case SC_Write:
+		{
+			int virtAddr = machine->ReadRegister(4); // Lay dia chi cua tham so buffer tu thanh ghi so 4
+			int charcount = machine->ReadRegister(5); // Lay charcount tu thanh ghi so 5
+			int id = machine->ReadRegister(6); // Lay id cua file tu thanh ghi so 6
+			int OldPos;
+			int NewPos;
+			char *buf;
+			
+			if (id < 0 || id > 9)
+			{
+				printf("\nKhong the write vi id nam ngoai bang mo ta file.");
+				machine->WriteRegister(2, -1);
+				IncreasePC();
+				return;
+			}
+			
+			if (fileSystem->openf[id] == NULL)
+			{
+				printf("\nKhong the write vi file nay khong ton tai.");
+				machine->WriteRegister(2, -1);
+				IncreasePC();
+				return;
+			}
+			
+			if (fileSystem->openf[id]->type == 1 || fileSystem->openf[id]->type == 2)
+			{
+				printf("\nKhong the write file stdin hoac file only read.");
+				machine->WriteRegister(2, -1);
+				IncreasePC();
+				return;
+			}
+			OldPos = fileSystem->openf[id]->GetCurrentPos(); 
+			buf = User2System(virtAddr, charcount);  
+			
+			if (fileSystem->openf[id]->type == 0)
+			{
+				if ((fileSystem->openf[id]->Write(buf, charcount)) > 0)
+				{
+					
+					NewPos = fileSystem->openf[id]->GetCurrentPos();
+					machine->WriteRegister(2, NewPos - OldPos);
+					delete buf;
+					IncreasePC();
+					return;
+				}
+			}
+			if (fileSystem->openf[id]->type == 3) 
+			{
+				int i = 0;
+				while (buf[i] != 0 && buf[i] != '\n') 
+				{
+					gSynchConsole->Write(buf + i, 1); 
+					i++;
+				}
+				buf[i] = '\n';
+				gSynchConsole->Write(buf + i, 1); 
+				machine->WriteRegister(2, i - 1); 
+				delete buf;
+				IncreasePC();
+				return;
+			}
+		}
+
 		default:
 			printf("Unexpected user mode exception %d %d\n", which, type);
 			ASSERT(FALSE);

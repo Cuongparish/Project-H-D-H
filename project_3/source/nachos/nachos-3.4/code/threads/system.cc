@@ -32,6 +32,12 @@ Machine *machine;	// user program memory and registers
 SynchConsole *gSynchConsole;
 #endif
 
+Semaphore* addrLock;		//semaphore
+BitMap* gPhysPageBitMap;	//quan ly cac frame
+PTable* pTab;				//quan ly bang tien trinh
+STable* semTab;				//quan ly semaphore
+#endif
+
 #ifdef NETWORK
 PostOffice *postOffice;
 #endif
@@ -151,6 +157,13 @@ Initialize(int argc, char **argv)
 #ifdef USER_PROGRAM
     machine = new Machine(debugUserProg);	// this must come first
     gSynchConsole = new SynchConsole();
+
+    addrLock = new semaphore("addrLock", 1);
+    gPhysPageBitMap = new BitMap(256);
+    pTab = new PTable(10);
+    semTab = new STable();
+
+   
 #endif
 
 #ifdef FILESYS

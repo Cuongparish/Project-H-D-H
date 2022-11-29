@@ -15,9 +15,9 @@
 #include "interrupt.h"
 #include "stats.h"
 #include "timer.h"
-#include"bitmap.h"
-#include"ptable.h"
-#include"stable.h"
+#include "bitmap.h"
+#include "ptable.h"
+#include "stable.h"
 
 // Initialization and cleanup routines
 extern void Initialize(int argc, char **argv); 	// Initialization,
@@ -39,10 +39,10 @@ extern Timer *timer;				// the hardware alarm clock
 extern Machine* machine;	// user program memory and registers
 extern SynchConsole* gSynchConsole;
 
-Semaphore* addrLock;		//semaphore
-BitMap* gPhysPageBitMap;	//quan ly cac frame
-PTable* pTab;				//quan ly bang tien trinh
-STable* semTab;				//quan ly semaphore
+extern Semaphore *addrLock;		//semaphore
+extern BitMap *gPhysPageBitMap;	//quan ly cac frame
+extern PTable *pTab;				//quan ly bang tien trinh
+extern STable *semTab;				//quan ly semaphore
 #endif
 
 #ifdef FILESYS_NEEDED 		// FILESYS or FILESYS_STUB 

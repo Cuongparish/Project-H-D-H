@@ -89,3 +89,65 @@ test.o:test.c
 test: test.o start.o
 	$(LD) $(LDFLAGS) start.o test.o -o test.coff
 	../bin/coff2noff test.coff test
+
+
+student.o: student.c
+	$(CC) $(CFLAGS) -c student.c
+student: student.o start.o
+	$(LD) $(LDFLAGS) start.o student.o -o student.coff
+	$(COFF2NOFF) student.coff student
+
+watertap.o: watertap.c
+	$(CC) $(CFLAGS) -c watertap.c
+watertap: watertap.o start.o
+	$(LD) $(LDFLAGS) start.o watertap.o -o watertap.coff
+	$(COFF2NOFF) watertap.coff watertap
+
+main.o: main.c
+	$(CC) $(CFLAGS) -c main.c
+main: main.o start.o
+	$(LD) $(LDFLAGS) start.o main.o -o main.coff
+	$(COFF2NOFF) main.coff main
+
+
+
+
+
+student1.o: student1.c
+	$(CC) $(CFLAGS) -c student.c
+student1: student1.o start1.o
+	$(LD) $(LDFLAGS) start.o student1.o -o student1.coff
+	$(COFF2NOFF) student1.coff student1
+
+watertap1.o: watertap1.c
+	$(CC) $(CFLAGS) -c watertap1.c
+watertap1: watertap1.o start.o
+	$(LD) $(LDFLAGS) start.o watertap1.o -o watertap1.coff
+	$(COFF2NOFF) watertap1.coff watertap1
+
+main1.o: main1.c
+	$(CC) $(CFLAGS) -c main1.c
+main1: main1.o start.o
+	$(LD) $(LDFLAGS) start.o main1.o -o main1.coff
+	$(COFF2NOFF) main1.coff main1
+
+
+student2.o: student2.c
+	$(CC) $(CFLAGS) -c student2.c
+student2: student2.o start.o
+	$(LD) $(LDFLAGS) start.o student2.o -o student2.coff
+	$(COFF2NOFF) student2.coff student2
+
+watertap2.o: watertap2.c
+	$(CC) $(CFLAGS) -c watertap2.c
+watertap2: watertap2.o start.o
+	$(LD) $(LDFLAGS) start.o watertap2.o -o watertap2.coff
+	$(COFF2NOFF) watertap2.coff watertap2
+
+main2.o: main2.c
+	$(CC) $(CFLAGS) -c main2.c
+main2: main2.o start.o
+	$(LD) $(LDFLAGS) start.o main2.o -o main2.coff
+	$(COFF2NOFF) main2.coff main2
+
+

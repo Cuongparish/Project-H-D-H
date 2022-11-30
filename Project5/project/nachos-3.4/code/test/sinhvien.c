@@ -101,7 +101,7 @@ void main()
 			}
 			cursorFile++;				
 		}				
-		// Ket thuc tien trinh sinhvien va voinuoc quay lai ham main
+		// Ket thuc tien trinh sinhvien va voinuoc quay lai tien trinh main
 		Signal("main");			
 	}
 }

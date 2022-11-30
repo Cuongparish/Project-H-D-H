@@ -17,14 +17,14 @@ main()
     }
     ret = -1;
     while (ret != 0) {
-        ret = Create("voinuoc.txt");
+        ret = CreateFile("voinuoc.txt");
         if (ret == -1) {
             Close(sv);
             Exit(-1);
         }
         vn = Open("voinuoc.txt", 0);
         if (vn == -1) {
-            CloseF(sv);
+            Close(sv);
             Exit(-1);
         }
         while (1) {

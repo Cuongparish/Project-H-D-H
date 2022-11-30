@@ -59,12 +59,12 @@ void main()
 				// Dung voi 1
 				if(voi1 <= voi2){
 					voi1 += thetich;
-					//Write(&thetich, count, fileRS);
+					Write(&thetich, count, fileRS);
 					Write("1", 1, fileRS);
 				}
 				else{ // Dung voi 2					
 					voi2 += thetich;
-					//Write(&thetich, count, fileRS);
+					Write(&thetich, count, fileRS);
 					Write("2", 1, fileRS);
 				}
 			}

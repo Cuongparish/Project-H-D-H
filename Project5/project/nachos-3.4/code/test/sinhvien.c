@@ -1,107 +1,62 @@
 #include "syscall.h"
-#include "copyright.h"
 
-void main()
+intmain()
 {
-	int checkFile; // kiem tra mo file thanh cong hay that bai
-	char value; // doc gia tri tu file
-	int checkVoinuoc; // nhay den voi nuoc
-	int lengthFile; // doc dai cua file
-	int cursorFile; // con tro chay trong file
-	SpaceId fileSV, fileVN; // id cua file sinhvien va voinuoc
+    char c;// luu gia tri ky tu doc tu input
+    int check;//kiem tra tao, mo file thanh cong hay khong
+    SpaceId vn;// bien nhan gia tri tra ve tu cac tien trinh
+    OpenFileId fileSv, fileVn;// id cua file sinhvien va voinuoc
 
-	Signal("temp");	
+    //
+    fileSv = Open("sinhvien.txt", 1);
+    if (fileSv == -1) {
+        PrintString("mo file that bai\n");
+        return -1;
+    }
 
-	while(1)
-	{
-		lengthFile = 0;
-		Wait("sinhvien");
-		
-		// Tao file result.txt de ghi voi nao su dung
-		checkFile = CreateFile("result.txt");
-		if(checkFile == -1)
-		{
-			Signal("main"); // tro ve tien trinh chinh
-			return;
-		}
+    //thuc thi tien trinh voinuoc
+    vn = Exec("./test/voinuoc");
+    if (vn == -1) {
+        return -1;
+    }
 
-		fileSV = Open("sinhvien.txt", 1);
-		if(fileSV == -1)
-		{
-			Signal("main"); // tro ve tien trinh chinh
-			return;
-		}
-		
-		lengthFile = Seek(-1, fileSV);
-		Seek(0, fileSV);
-		cursorFile = 0;
-	
-		checkFile = CreateFile("voinuoc.txt");
-		if(checkFile == -1)
-		{
-			Close(fileSV);
-			Signal("main"); // tro ve tien trinh chinh
-			return;
-		}
-		
+    check = -1;
+    // lan luot doc tung the tich vao file voinuoc.txt va goi thuc thi chuong trinh voinuoc
+    while (check != 0) {
 
-		// ghi tung dung tich nuoc cua sinhvien
-		fileVN = Open("voinuoc.txt", 0);
-		if(fileVN == -1)
-		{
-			Close(fileSV);
-			Signal("main"); // tro ve tien trinh chinh
-			return;
-		}
-		
-		// ghi dung tich vao file voinuoc.txt tu file sinhvien.txt
-		while(cursorFile < lengthFile)
-		{
-			checkVoinuoc = 0;
-			Read(&value, 1, fileSV);
-			if(value != ' ')
-			{
-				Write(&value, 1, fileVN);
-			}
-			else
-			{
-				checkVoinuoc = 1;
-			}
-			if(cursorFile == lengthFile - 1)
-			{
-				Write("-", 1, fileVN);
-				checkVoinuoc = 1;
-			}
-			
-				
-			if(checkVoinuoc == 1)
-			{
-				Close(fileVN);
-				Signal("voinuoc");
-				// dua chuong trinh sinh vien de voinuoc thuc thi
-				Wait("sinhvien");
+        check = CreateFile("voinuoc.txt");
+        if (check == -1) {
+            Close(fileSv);
+            PrintString("tao file that bai\n");
+            return -1;
+        }
+        fileVn = Open("voinuoc.txt", 0);
+        if (fileVn == -1) {
+            Close(fileSv);
+            PrintString("mo file that bai\n");
+            return -1;
+        }
 
-				checkFile = CreateFile("voinuoc.txt");
-				if(checkFile == -1)
-				{
-					Close(fileSV);
-					Signal("main"); // tro ve tien trinh chinh
-					return;
-				}
-		
-
-				// ghi tung dung tich nuoc cua sinhvien
-				fileVN = Open("voinuoc.txt", 0);
-				if(fileVN == -1)
-				{
-					Close(fileSV);
-					Signal("main"); // tro ve tien trinh chinh
-					return;
-				}
-			}
-			cursorFile++;				
-		}				
-		// Ket thuc tien trinh sinhvien va voinuoc quay lai tien trinh main
-		Signal("main");			
-	}
+        // doc the tich cua 1 bình
+        while (1) {
+            if (Read(&c, 1, fileSv) == 0) {
+                Write("0", 1, fileVn);
+                check = 0;
+                break;
+            }
+            else check = -1;
+            if (c == ' ' || c == '\n')
+            {
+                break;
+            }
+            Write(&c, 1, fileVn);
+        }
+        Close(fileVn);
+        // sau khi doc xong the tich 1 binh
+        // goi thuc thi chuong trinh voinuoc va cho sinhvien doi
+        Signal("voinuoc");
+        Wait("sinhvien");
+    }
+    Exit(0);
 }
+

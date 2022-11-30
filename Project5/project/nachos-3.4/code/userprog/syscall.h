@@ -16,15 +16,6 @@
 #include "copyright.h"
 
 
-
-/////////////////////////////////////////////////
-// 	DH KHTN - DHQG TPHCM			/
-// 	1512034 Nguyen Dang Binh		/
-// 	1512042 Nguyen Thanh Chung		/
-// 	1512123 Hoang Ngoc Duc			/
-/////////////////////////////////////////////////
-
-
 //Define System call
 
 #define SC_Halt			0
@@ -42,12 +33,12 @@
 #define SC_Fork			9
 #define SC_Yield		10
 //Syscall co ban
-#define SC_ReadInt		11
-#define SC_PrintInt		12
-#define SC_ReadChar		13
-#define SC_PrintChar		14
-#define SC_ReadString		15
-#define SC_PrintString		16
+#define SC_readInt 		11
+#define SC_printInt 		12
+#define SC_readChar 		13
+#define SC_printChar 		14
+#define SC_readString 		15
+#define SC_printString 		16
 #define SC_Seek			17
 #define SC_Sum			30
 

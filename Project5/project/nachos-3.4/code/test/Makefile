@@ -72,44 +72,6 @@ echo: echo.o start.o
 	$(LD) $(LDFLAGS) start.o echo.o -o echo.coff
 	../bin/coff2noff echo.coff echo
 
-createfile.o: createfile.c
-	$(CC) $(CFLAGS) -c createfile.c
-createfile: createfile.o start.o
-	$(LD) $(LDFLAGS) start.o createfile.o -o createfile.coff
-	../bin/coff2noff createfile.coff createfile
-
-cat.o: cat.c
-	$(CC) $(CFLAGS) -c cat.c
-cat: cat.o start.o
-	$(LD) $(LDFLAGS) start.o cat.o -o cat.coff
-	../bin/coff2noff cat.coff cat
-
-copy.o: copy.c
-	$(CC) $(CFLAGS) -c copy.c
-copy: copy.o start.o
-	$(LD) $(LDFLAGS) start.o copy.o -o copy.coff
-	../bin/coff2noff copy.coff copy
-
-
-ping.o: ping.c
-	$(CC) $(CFLAGS) -c ping.c
-ping: ping.o start.o
-	$(LD) $(LDFLAGS) start.o ping.o -o ping.coff
-	../bin/coff2noff ping.coff ping
-
-pong.o: pong.c
-	$(CC) $(CFLAGS) -c pong.c
-pong: pong.o start.o
-	$(LD) $(LDFLAGS) start.o pong.o -o pong.coff
-	../bin/coff2noff pong.coff pong
-
-scheduler.o: scheduler.c
-	$(CC) $(CFLAGS) -c scheduler.c
-scheduler: scheduler.o start.o
-	$(LD) $(LDFLAGS) start.o scheduler.o -o scheduler.coff
-	../bin/coff2noff scheduler.coff scheduler
-
-
 main.o: main.c
 	$(CC) $(CFLAGS) -c main.c
 main: main.o start.o
@@ -126,16 +88,4 @@ sinhvien.o: sinhvien.c
 	$(CC) $(CFLAGS) -c sinhvien.c
 sinhvien: sinhvien.o start.o
 	$(LD) $(LDFLAGS) start.o sinhvien.o -o sinhvien.coff
-	../bin/coff2noff sinhvien.coff sinhvien
 
-checkfile.o: checkfile.c
-	$(CC) $(CFLAGS) -c checkfile.c
-checkfile: checkfile.o start.o
-	$(LD) $(LDFLAGS) start.o checkfile.o -o checkfile.coff
-	../bin/coff2noff checkfile.coff checkfile
-
-checksum.o: checksum.c
-	$(CC) $(CFLAGS) -c checksum.c
-checksum: checksum.o start.o
-	$(LD) $(LDFLAGS) start.o checksum.o -o checksum.coff
-	../bin/coff2noff checksum.coff checksum

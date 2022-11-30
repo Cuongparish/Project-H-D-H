@@ -16,15 +16,6 @@
 #include "copyright.h"
 
 
-
-/////////////////////////////////////////////////
-// 	DH KHTN - DHQG TPHCM			/
-// 	1512034 Nguyen Dang Binh		/
-// 	1512042 Nguyen Thanh Chung		/
-// 	1512123 Hoang Ngoc Duc			/
-/////////////////////////////////////////////////
-
-
 //Define System call
 
 #define SC_Halt			0

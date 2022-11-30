@@ -38,18 +38,23 @@
 #include "copyright.h"
 #include "openfile.h"
 
-typedef int OpenFileID;
 
+//OpenFile duy nhat ...
+typedef int OpenFileID;
 #ifdef FILESYS_STUB 		// Temporarily implement file system calls as 
 				// calls to UNIX, until the real file system
 				// implementation is available
+
+
+
 class FileSystem {
   public:
   	
-  	OpenFile** openf; 
+  	//Khai bao 2 bien 
+  	OpenFile** openf; //De kiem tra xem file co dang mo khong
 	int index;
 	
-
+	//Dinh nghia lai ham khoi tao cua FileSystem
     	FileSystem(bool format) {
 		openf = new OpenFile*[15];
 		index = 0;
@@ -63,6 +68,7 @@ class FileSystem {
 		openf[index++] = this->Open("stdout", 3);    
 	}
 	
+	//Ham huy doi tuong FileSystem
 	~FileSystem()
 	{
 		for (int i = 0; i < 15; ++i)
@@ -71,6 +77,9 @@ class FileSystem {
 		}
 		delete[] openf;
 	}
+
+
+
 
 	//Default method
     	bool Create(char *name, int initialSize) { 
@@ -119,9 +128,11 @@ class FileSystem {
 #else // FILESYS
 class FileSystem {
   public:
-	OpenFile** openf;
+  	
+  	//Khai bao
+  	OpenFile** openf;
 	int index;
-
+	
     FileSystem(bool format);		// Initialize the file system.
 					// Must be called *after* "synchDisk" 
 					// has been initialized.
@@ -132,11 +143,10 @@ class FileSystem {
     bool Create(char *name, int initialSize);  	
 					// Create a file (UNIX creat)
 
+	
     OpenFile* Open(char *name); 	// Open a file (UNIX open)
-
-	OpenFile* Open(char *name, int type);
-
-	int FindFreeSlot();
+    OpenFile* Open(char *name, int type); //Mo file voi tham so type
+    int FindFreeSlot();
 
     bool Remove(char *name);  		// Delete a file (UNIX unlink)
 

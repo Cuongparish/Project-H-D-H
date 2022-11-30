@@ -92,8 +92,8 @@ int SynchConsole::Write(char *from, int numBytes)
 //	Returns the number of bytes written  (may be less if CR or ^D)
 //----------------------------------------------------------------------
 
-
-int SynchConsole::Read(char *into, int numBytes)
+int
+SynchConsole::Read(char *into, int numBytes)
 {
 	int loop;
 	int eolncond = FALSE;

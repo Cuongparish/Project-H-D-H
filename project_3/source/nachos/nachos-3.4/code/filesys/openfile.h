@@ -17,6 +17,7 @@
 // All rights reserved.  See copyright.h for copyright notice and limitation 
 // of liability and disclaimer of warranty provisions.
 
+
 #ifndef OPENFILE_H
 #define OPENFILE_H
 
@@ -28,11 +29,13 @@
 					// See definitions listed under #else
 class OpenFile {
   public:
+  	//Khai bao bien type
   	int type;
   	
-	OpenFile(int f) { file = f; currentOffset = 0; type = 0; }	
-	OpenFile(int f, int t) { file = f; currentOffset = 0; type = t; }	
-    	~OpenFile() { Close(file); }			
+	//Ham dung cua class OpenFile
+	OpenFile(int f) { file = f; currentOffset = 0; type = 0; }	// mo file mac dinh
+	OpenFile(int f, int t) { file = f; currentOffset = 0; type = t; }	// mo file voi tham so type
+    	~OpenFile() { Close(file); }			// close the file
 
   	int Seek(int pos) {
 		Lseek(file, pos, 0);
@@ -40,6 +43,9 @@ class OpenFile {
 		return currentOffset;
 	}
 	
+  	
+    
+
     int ReadAt(char *into, int numBytes, int position) { 
     		Lseek(file, position, 0); 
 		return ReadPartial(file, into, numBytes); 
@@ -75,6 +81,7 @@ class OpenFile {
     
     int GetCurrentPos() { currentOffset = Tell(file); return currentOffset; }
 	
+    
   private:
     int file;
     int currentOffset;
@@ -85,6 +92,7 @@ class FileHeader;
 
 class OpenFile {
   public:
+  	//Khai bao bien type
   	int type; 
 	// type 0 : read and write
 	// type 1 : only read

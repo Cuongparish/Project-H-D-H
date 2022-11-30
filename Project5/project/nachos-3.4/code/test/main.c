@@ -81,8 +81,7 @@ int main()
 	}
 
 	// Doc so luong thoi diem xet o file input.txt
-	//**** Thuc hien xong doan lenh duoi thi con tro file o input.txt o dong 1
-	while (true) {
+	while (1) {
 		Read(&value, 1, fileInput);
 		if (value != '\n') {
 
@@ -92,12 +91,9 @@ int main()
 		else
 			break;
 	}
-
-	int i = 0;
-	// Thuc hien xu ly khi nao het thoi diem xet thi thoi
-	while(i < n)
+	//lap tung thoi diem
+	while(n--)
 	{
-		i++;
 		// Tao file sinhvien.txt
 		check = CreateFile("sinhvien.txt");
 		if(check == -1)
@@ -107,7 +103,7 @@ int main()
 			return 1;
 		}
 		
-		// Mo file sinhvien.txt de ghi tung dong sinhvien tu file input.txt
+		// ghi tung dong sinhvien tu file input.txt
 		fileSV = Open("sinhvien.txt", 0);
 		if(fileSV == -1)
 		{
@@ -115,7 +111,7 @@ int main()
 			Close(fileOutput);
 			return 1;
 		}
-		while(true)
+		while(1)
 		{
 			if(Read(&value, 1, fileInput) < 1)
 			{
@@ -148,12 +144,8 @@ int main()
 			return 1;
 		}
 
-		PrintString("\n Lan thu: ");
-		PrintInt(n);
-		PrintString("\n");	
-
-		// Doc cac voi vao output.txt		
-		while(true)
+		// ghi ket qua vao output.txt		
+		while(1)
 		{
 			if(Read(&value, 1, fileRS)  < 1)
 			{
@@ -164,11 +156,8 @@ int main()
 			}
 			Write(&value, 1, fileOutput);
 			Write(" ", 1, fileOutput);
-			
 		}
-		
 	}
-	
 	
 	Close(fileInput);
 	Close(fileOutput);

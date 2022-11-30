@@ -25,7 +25,6 @@ void main()
 			return;
 		}
 
-		// Mo file sinhvien.txt len de doc
 		fileSV = Open("sinhvien.txt", 1);
 		if(fileSV == -1)
 		{
@@ -37,7 +36,6 @@ void main()
 		Seek(0, fileSV);
 		cursorFile = 0;
 	
-		// Tao file voinuoc.txt
 		checkFile = CreateFile("voinuoc.txt");
 		if(checkFile == -1)
 		{
@@ -47,7 +45,7 @@ void main()
 		}
 		
 
-		// Mo file voinuoc.txt de ghi tung dung tich nuoc cua sinhvien
+		// ghi tung dung tich nuoc cua sinhvien
 		fileVN = Open("voinuoc.txt", 0);
 		if(fileVN == -1)
 		{
@@ -56,7 +54,7 @@ void main()
 			return;
 		}
 		
-		// Ghi dung tich vao file voinuoc.txt tu file sinhvien.txt
+		// ghi dung tich vao file voinuoc.txt tu file sinhvien.txt
 		while(cursorFile < lengthFile)
 		{
 			checkVoinuoc = 0;
@@ -80,10 +78,9 @@ void main()
 			{
 				Close(fileVN);
 				Signal("voinuoc");
-				// Dung chuong trinh sinhvien lai de voinuoc thuc thi
+				// dua chuong trinh sinh vien de voinuoc thuc thi
 				Wait("sinhvien");
-				
-				// Tao file voinuoc.txt
+
 				checkFile = CreateFile("voinuoc.txt");
 				if(checkFile == -1)
 				{
@@ -93,7 +90,7 @@ void main()
 				}
 		
 
-				// Mo file voinuoc.txt de ghi tung dung tich nuoc cua sinhvien
+				// ghi tung dung tich nuoc cua sinhvien
 				fileVN = Open("voinuoc.txt", 0);
 				if(fileVN == -1)
 				{
@@ -101,13 +98,10 @@ void main()
 					Signal("main"); // tro ve tien trinh chinh
 					return;
 				}
-				
 			}
-			cursorFile++;			
-							
+			cursorFile++;				
 		}				
 		// Ket thuc tien trinh sinhvien va voinuoc quay lai ham main
 		Signal("main");			
 	}
-	// Quay lai ham main
 }

@@ -11,14 +11,15 @@ int main() {
 		return 1;
 	}
 
-	pingId = Exec("./test/pong");
+	pongId = Exec("./test/pong");
 	if (pongId == -1)
 	{
 		return 1;
 	}
 	Join(pingId);
-	Join(pingId);
+	Join(pongId);
 
 	PrintString("Finish test\n");
 }
+
 
